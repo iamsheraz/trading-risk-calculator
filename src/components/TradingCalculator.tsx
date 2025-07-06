@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { TrendingUp, TrendingDown, DollarSign, Target, AlertTriangle } from 'lucide-react';
 
 interface CalculationResults {
@@ -23,7 +23,7 @@ const TradingCalculator: React.FC = () => {
   const [inputMode, setInputMode] = useState<InputMode>('investment');
   const [results, setResults] = useState<CalculationResults | null>(null);
 
-  const calculateRiskReward = (): void => {
+  const calculateRiskReward = useCallback((): void => {
     const current = parseFloat(currentPrice);
     const stopLoss = parseFloat(stopLossPrice);
     let investment = parseFloat(investmentAmount);
@@ -75,11 +75,11 @@ const TradingCalculator: React.FC = () => {
       riskPerShare: lossPerShare.toFixed(2),
       rewardPerShare: targetGainPerShare.toFixed(2)
     });
-  };
+  }, [currentPrice, stopLossPrice, investmentAmount, shares, inputMode]);
 
   useEffect(() => {
     calculateRiskReward();
-  }, [currentPrice, stopLossPrice, investmentAmount, shares, inputMode]);
+  }, [calculateRiskReward]);
 
   const isValidInput = currentPrice && stopLossPrice && 
                       parseFloat(currentPrice) > 0 && parseFloat(stopLossPrice) > 0 && 
