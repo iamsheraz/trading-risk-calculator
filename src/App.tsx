@@ -1,12 +1,13 @@
 import React from 'react';
-import TradingCalculator from './components/TradingCalculator';
+import TradingCalculator from './components/TradingCalculator/index';  // Explicit index
+import './App.css';
 
-const App: React.FC = () => {
+function App() {
   return (
     <div className="App">
       <TradingCalculator />
     </div>
   );
-};
+}
 
 export default App;
